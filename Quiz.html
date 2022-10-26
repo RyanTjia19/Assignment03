@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="style.css">
+		<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 		<script src="script.js"></script>
 
 		<!-- According to w3schools -->
@@ -19,13 +20,20 @@
 	</head>
 
 	<body>
+		<button onclick="GetData()">Start Quiz</button>
+		<button onclick="render_view('#post-view1')">Random question</button>
 		<div id="view_template"></div>
 	</body>
 
 	<!-- Different views -->
 	<script id="post-view1" type="text/x-handlebars-template">
 		<div>
-			Something...
+			{{Question}}
 		</div>
+		<ol>
+			{{#each Choices}}
+			<li>{{this.Answer}}</li>
+			{{/each}}
+		</ol>
 	</script>
 </html>
