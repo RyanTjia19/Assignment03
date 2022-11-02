@@ -1,37 +1,21 @@
-label {
+.button {
+	width: 100%;
+	text-align: left;
+	margin: 10px 0px;
+}
+
+.center {
+	display: block;
+  	margin-left: auto;
+  	margin-right: auto;
+  	width: 50%;
+}
+
+.title {
+	text-align: center;
 	font-weight: bold;
 }
 
-body {
-	background-position: center;
-	background-repeat: repeat;
-	background-size: cover;
-}
-
-#form-style {
-	background-color: #fff9d4;
-	border: 5px solid black;
-	padding: 20px;
-}
-
-.priority-title {
-	font-weight: bold;
-	padding-left: 5px;
-	margin-top: 5px;
-	border: black 1px solid;
-}
-
-.priority-title button {
-	float: right;
-}
-
-.list-dropdown {
-	background-color: #fff9eb;
-	border: black 1px solid;
-}
-
-.list-desc {
-	background-color: white;
-	margin: 0px 5px 5px 5px;
-	border: black 1px dashed;
+.response {
+	position: absolute;
 }
