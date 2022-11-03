@@ -19,7 +19,7 @@
 		<title>Task List</title>
 	</head>
 
-	<body>
+	<body style="background-color: indigo;">
 		<button onclick="GetData('ComputerScience')">Start Quiz</button>
 		<button onclick="updatePage()">Random question</button>
 		<div id="view_template"></div>
@@ -27,14 +27,33 @@
 
 	<!-- Quiz overhead -->
 	<script id="Quiz" type="text/x-handlebars-template">
+		<div class="rowOverlap row">
+			<div class="background"></div>
+			<div id="response" class="overlapResponse">
+			</div>
+		</div>
+
 		<div class="row">
-			<div class="col-lg-12 mx-auto">
-				<div class="title">
-					{{name}}<br>
-					{{currentQuestion}} of {{totalQuestions}}
-				</div>
-				<div id="response" class="response"></div>
-				<div id="quizQuestions"></div>
+			<div class="title col-lg-6 mx-auto">
+				{{name}}<br>
+				{{currentQuestion}} of {{totalQuestions}}
+			</div>
+		</div>
+
+		<div class="row">
+			<div id="quizQuestions" class="question col-lg-6 mx-auto"></div>
+		</div>
+	</script>
+
+	<!-- Result screen -->
+	<script id="resultTemplate" type="text/x-handlebars-template">
+		<div class="resultScreen col-lg-6 mx-auto">
+			<div class="row">
+				<b>You got {{correctResponses}} out of {{totalQuestions}} correct</b>
+			</div>
+
+			<div class="row">
+				That's {{percentage}}%
 			</div>
 		</div>
 	</script>
@@ -42,131 +61,118 @@
 	<!-- Different views for different questions -->
 	<!-- Simple and Narrative share the same template since the only difference is the size of the question -->
 	<script id="MC" type="text/x-handlebars-template">
-		<div class="row border">
-			<div class="col-lg-6 mx-auto">
-				{{Question}}
+		{{Question}}
 
-				<div class="row">
-					<div class="col-lg-6">
-						<button id="0" class="button h-75">A){{Choices.0.Answer}}</button>
-					</div>
-					<div class="col-lg-6">
-						<button id="1" class="button h-75">B){{Choices.1.Answer}}</button>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-lg-6">
-						<button id="2" class="button h-75">C){{Choices.2.Answer}}</button>
-					</div>
-					<div class="col-lg-6">
-						<button id="3" class="button h-75">D){{Choices.3.Answer}}</button>
-					</div>
-				</div>
-
-				<div class="row mt-2">
-					<button id="submit">
-						Submit
-					</button>
-				</row>
+		<div class="row">
+			<div class="col-lg-6">
+				<button id="0" class="button h-75">A){{Choices.0.Answer}}</button>
 			</div>
+			<div class="col-lg-6">
+				<button id="1" class="button h-75">B){{Choices.1.Answer}}</button>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-6">
+				<button id="2" class="button h-75">C){{Choices.2.Answer}}</button>
+			</div>
+			<div class="col-lg-6">
+				<button id="3" class="button h-75">D){{Choices.3.Answer}}</button>
+			</div>
+		</div>
+
+		<div class="row mt-2">
+			<button id="submit">
+				Submit
+			</button>
 		</div>
 	</script>
 
 	<script id="Image" type="text/x-handlebars-template">
-		<div class="row border">
-			<div class="col-lg-6 mx-auto">
-				{{Question}}<br>
-				<img src="Images/{{Image}}" alt="Picture" class="center">
+		{{Question}}<br>
+		<img src="Images/{{Image}}" alt="Picture" class="center">
 
-				<div class="row">
-					<div class="col-lg-6">
-						<button id="0" class="button h-75">A){{Choices.0.Answer}}</button>
-					</div>
-					<div class="col-lg-6">
-						<button id="1" class="button h-75">B){{Choices.1.Answer}}</button>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-lg-6">
-						<button id="2" class="button h-75">C){{Choices.2.Answer}}</button>
-					</div>
-					<div class="col-lg-6">
-						<button id="3" class="button h-75">D){{Choices.3.Answer}}</button>
-					</div>
-				</div>
-
-				<div class="row mt-2">
-					<button id="submit">
-						Submit
-					</button>
-				</row>
+		<div class="row">
+			<div class="col-lg-6">
+				<button id="0" class="button h-75">A){{Choices.0.Answer}}</button>
 			</div>
+			<div class="col-lg-6">
+				<button id="1" class="button h-75">B){{Choices.1.Answer}}</button>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-6">
+				<button id="2" class="button h-75">C){{Choices.2.Answer}}</button>
+			</div>
+			<div class="col-lg-6">
+				<button id="3" class="button h-75">D){{Choices.3.Answer}}</button>
+			</div>
+		</div>
+
+		<div class="row mt-2">
+			<button id="submit">
+				Submit
+			</button>
 		</div>
 	</script>
 
 	<script id="TF" type="text/x-handlebars-template">
-		<div class="row border">
-			<div class="col-lg-6 mx-auto">
-				{{Question}}
+		{{Question}}
 
-				<div class="row">
-					<div class="col-lg-6">
-						<button id="0" class="button">A)True</button>
-					</div>
-					<div class="col-lg-6">
-						<button id="1" class="button">B)False</button>
-					</div>
-				</div>
-
-				<div class="row mt-2">
-					<button id="submit">
-						Submit
-					</button>
-				</row>
+		<div class="row">
+			<div class="col-lg-6">
+				<button id="0" class="button">A)True</button>
 			</div>
+			<div class="col-lg-6">
+				<button id="1" class="button">B)False</button>
+			</div>
+		</div>
+
+		<div class="row mt-2">
+			<button id="submit">
+				Submit
+			</button>
 		</div>
 	</script>
 
 	<script id="Lists" type="text/x-handlebars-template">
-		<div class="row border">
-			<div class="col-lg-6 mx-auto">
-				<form onsubmit="return false">
-					<label for="options">{{Frag1}}</label>
+		<label for="options">{{Frag1}}</label>
 
-					<select id="options" name="options"
-						<option value=-1>(Choose)</option>
-						<option value=-1>(Choose)</option>
-						
-						{{#each Choices}}
-						<option value={{id}}>{{Answer}}</option>
-						{{/each}}
-					</select>
+		<select id="options" name="options"
+			<option value=-1>(Choose)</option>
+					
+			{{#each Choices}}
+			<option value={{id}}>{{Answer}}</option>
+			{{/each}}
+		</select>
 
-					<label for="options">{{Frag2}}</label>
-  					<input id="listSubmit" type="submit">
-				</form>
-			</div>
-		</div>
+		<label for="options">{{Frag2}}</label><br>
+  		<button id="listSubmit">Submit</button>
 	</script>
 
-	<!-- Correct/Incorrect response -->
-	<script id="Correct" type="text/x-handlebars-template">
-		Correct
-	</script>
-
-	<script id="Incorrect" type="text/x-handlebars-template">
-		<div class="row">
-			<div class="col-lg-8 mx-auto">
-				The correct answer is: <b>{{Answer}}</b>
+	<!-- Correct/Incorrect response, using the if-else statement -->
+	<script id="Reaction" type="text/x-handlebars-template">
+		{{#if CorrectAnswer}}
+			<div class="row">
+				<div class="col-lg-6 mx-auto">
+					The correct answer is: <b>{{CorrectAnswer}}</b>
+				</div>
 			</div>
-		</div>
 
-		<div class="row">
-			<div class="col-lg-8 mx-auto">
-				{{Note}}
+			<div class="row">
+				<div class="col-lg-6 mx-auto">
+					{{Note}}
+				</div>
 			</div>
-		</div>
+
+			<div class="row">
+				<button id="understood">Got it</button>
+			</div>
+		{{else}}
+			<div class="row">
+				Correct
+			</div>
+		{{/if}}
 	</script>
 </html>

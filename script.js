@@ -54,6 +54,11 @@ function handle_event(e) {
 			alert("Please choose an answer");
 		}
 	}
+
+	//When the user understood why the correct answer is correct
+	else if (e.target.id == "understood") {
+		updatePage();
+	}
 }
 
 //Gets the correct data for the correct quiz
@@ -80,12 +85,12 @@ var GetData = (quiz) => {
 		document.querySelector("#view_template").innerHTML = html;
 	})
 	.then(() => {
-		render_view();
+		view_question();
 	})
 }
 
 //Picks the template based on the type of question
-var render_view = () => {
+var view_question = () => {
 
 	//Randomize the question
 	//First by type
@@ -147,37 +152,74 @@ function totalCount(jsonObject) {
 
 //Method to update the page without reloading
 var updatePage = function() {
+	var source;
+	var template;
 
-	//Access the quiz template
-	var source = document.querySelector('#Quiz').innerHTML;
+	//Checks if there are any more questions left
+	if (set.length > 0) {
+
+		//Access the quiz template
+		source = document.querySelector('#Quiz').innerHTML;
+
+		//Initialize/reset the 'TitleQuiz' json
+		TitleQuiz['currentQuestion'] = TitleQuiz['currentQuestion'] + 1;
+	}
+
+	//Otherwise, show the result
+	else {
+
+		//Result template
+		source = document.querySelector('#resultTemplate').innerHTML;
+		
+		//Shows the percentage
+		var percentage = (TitleQuiz['correctResponses'] / TitleQuiz['totalQuestions']) * 100;
+		TitleQuiz['percentage'] = percentage;
+	}
+
 	var template = Handlebars.compile(source);
-
-	//Initialize/reset the 'TitleQuiz' json
-	TitleQuiz['currentQuestion'] = TitleQuiz['currentQuestion']+ 1;
 	var html = template(TitleQuiz);
-
 	document.querySelector("#view_template").innerHTML = html;
 
-	render_view();
+	//Calls this function only if there are still questions
+	if (set.length > 0) {
+
+		//Next question
+		view_question();
+	}
 }
 
 //Method to check the answer
 function checkAnswer(number) {
-	var source;
 
-	//Correct response
-	if (chosenQuestion['Answer'] == number) {
-		source = document.querySelector('#Correct').innerHTML;
+	//Add a new property to the chosenQuestion object to serve as the correct answer on text
+	var correctAnswer;
+
+	//If the response is incorrect, then add a new property to the chosenQuestion object
+	//The existence of the correctAnswer property in the object will determine if the user is incorrect
+	if (chosenQuestion['Answer'] != number) {
+		if ('Choices' in chosenQuestion) { //This is for when the question provides multiple choices
+			correctAnswer = chosenQuestion['Choices'];
+			correctAnswer = correctAnswer[chosenQuestion['Answer']];
+			correctAnswer = correctAnswer['Answer'];
+		}
+		else if (chosenQuestion['Answer'] == 0) { //When the answer is 'true'
+			correctAnswer = 'True';
+		}
+		else if (chosenQuestion['Answer'] == 1) { //When the answer is 'false'
+			correctAnswer = 'False';
+		}
+		chosenQuestion.CorrectAnswer = correctAnswer;
+	}
+	else {
 		TitleQuiz['correctResponses'] = TitleQuiz['correctResponses'] + 1;
 		setTimeout(() => {updatePage();}, 1000);
 	}
 
-	//Incorrect response
-	else {
-		source = document.querySelector('#Incorrect').innerHTML;
-	}
-
+	var source = document.querySelector('#Reaction').innerHTML;
 	var template = Handlebars.compile(source);
 	var html = template(chosenQuestion);
+
+	//Changing the template and their css
+	document.querySelector(".background").className += ' overlapBackground';
 	document.querySelector("#response").innerHTML = html;
 }

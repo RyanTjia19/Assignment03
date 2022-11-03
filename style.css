@@ -13,9 +13,45 @@
 
 .title {
 	text-align: center;
+	color: white;
 	font-weight: bold;
+	margin: 20px 0px;
 }
 
-.response {
-	position: absolute;
+.resultScreen {
+	background-color: white;
+	border-style: solid;
+	border-color: gray;
+}
+
+.resultScreen {
+	text-align: center;
+}
+
+.question {
+	background-color: #7f7f7f;
+	border-style: solid;
+	border-color: white;
+}
+.rowOverlap {
+	position: fixed;
+	z-index: 10;
+}
+
+.overlapBackground {
+	background-color: black;
+	opacity: 50%;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+
+	width: 100%;
+	height: 100%;
+}
+
+.overlapResponse {
+	position: fixed;
+	background-color: blue;
+	border-color: black;
 }
