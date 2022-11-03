@@ -20,19 +20,28 @@
 	</head>
 
 	<body style="background-color: indigo;">
-		<button onclick="GetData('ComputerScience')">Start Quiz</button>
-		<button onclick="updatePage()">Random question</button>
 		<div id="view_template"></div>
 	</body>
 
-	<!-- Quiz overhead -->
-	<script id="Quiz" type="text/x-handlebars-template">
-		<div class="rowOverlap row">
-			<div class="background"></div>
-			<div id="response" class="overlapResponse">
+	<!-- Main Menu -->
+	<script id="Menu" type="text/x-handlebars-template">
+		<div class="row">
+			<div class="title col-lg-6 mx-auto">
+				<h1>Take-A-Quiz</h1>
 			</div>
 		</div>
 
+		<div class="row">
+			<div id="quizzes" class="col-lg-10 mx-auto">
+				{{#each Quiz}}
+				<button id={{Subject}} class="btn-lg">{{Subject}}</button>
+				{{/each}}
+			</div>
+		</div>
+	</script>
+
+	<!-- Quiz overhead -->
+	<script id="Quiz" type="text/x-handlebars-template">
 		<div class="row">
 			<div class="title col-lg-6 mx-auto">
 				{{name}}<br>
@@ -43,17 +52,27 @@
 		<div class="row">
 			<div id="quizQuestions" class="question col-lg-6 mx-auto"></div>
 		</div>
+
+		<div class="row">
+			<div class="overlap Background"></div>
+			<div id="response" class="overlap col-lg-6 mx-auto Response">
+			</div>
+		</div>
 	</script>
 
 	<!-- Result screen -->
 	<script id="resultTemplate" type="text/x-handlebars-template">
 		<div class="resultScreen col-lg-6 mx-auto">
 			<div class="row">
-				<b>You got {{correctResponses}} out of {{totalQuestions}} correct</b>
+				<h1>You got {{correctResponses}} out of {{totalQuestions}} correct</h1>
 			</div>
 
 			<div class="row">
 				That's {{percentage}}%
+			</div>
+
+			<div class="row">
+				<button id="homePage">Main Menu</button>
 			</div>
 		</div>
 	</script>
@@ -155,14 +174,14 @@
 	<script id="Reaction" type="text/x-handlebars-template">
 		{{#if CorrectAnswer}}
 			<div class="row">
-				<div class="col-lg-6 mx-auto">
-					The correct answer is: <b>{{CorrectAnswer}}</b>
+				<div class="col-lg-12 mx-auto">
+					<span class="resultText">The correct answer is: <b>{{CorrectAnswer}}</b></span>
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="col-lg-6 mx-auto">
-					{{Note}}
+				<div class="col-lg-12 mx-auto">
+					<span class="resultText">{{Note}}</span>
 				</div>
 			</div>
 
@@ -171,7 +190,7 @@
 			</div>
 		{{else}}
 			<div class="row">
-				Correct
+				<span class="resultText">Correct</span>
 			</div>
 		{{/if}}
 	</script>

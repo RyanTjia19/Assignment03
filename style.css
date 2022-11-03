@@ -24,34 +24,39 @@
 	border-color: gray;
 }
 
-.resultScreen {
-	text-align: center;
-}
-
 .question {
 	background-color: #7f7f7f;
 	border-style: solid;
 	border-color: white;
 }
+
 .rowOverlap {
 	position: fixed;
 	z-index: 10;
 }
 
-.overlapBackground {
-	background-color: black;
-	opacity: 50%;
-
+.overlap {
 	position: fixed;
 	top: 0;
 	left: 0;
+	z-index: 10;
+}
 
-	width: 100%;
+.Background {
+	background-color: black;
+	opacity: 50%;
+
+	width: 0%;
 	height: 100%;
 }
 
-.overlapResponse {
-	position: fixed;
+.Response {
+	border: solid 3px black;
 	background-color: blue;
-	border-color: black;
+}
+
+.resultText {	
+	color: white;
+	font-size: 20px;
+	padding: 10px 0px;
 }
